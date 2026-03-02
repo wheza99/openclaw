@@ -234,7 +234,7 @@ export function renderApp(state: AppViewState) {
             title="${state.settings.navCollapsed ? t("nav.expand") : t("nav.collapse")}"
             aria-label="${state.settings.navCollapsed ? t("nav.expand") : t("nav.collapse")}"
           >
-            <span class="nav-collapse-toggle__icon">${icons.menu}</span>
+            <span class="nav-collapse-toggle__icon">${icons.panelLeft}</span>
           </button>
 
         </div>

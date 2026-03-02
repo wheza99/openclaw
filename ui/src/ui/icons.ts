@@ -97,6 +97,12 @@ export const icons = {
       <line x1="4" x2="20" y1="18" y2="18" />
     </svg>
   `,
+  panelLeft: html`
+    <svg viewBox="0 0 24 24">
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="M9 3v18" />
+    </svg>
+  `,
   x: html`
     <svg viewBox="0 0 24 24">
       <path d="M18 6 6 18" />
