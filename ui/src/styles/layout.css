@@ -14,7 +14,7 @@
   grid-template-columns: var(--shell-nav-width) minmax(0, 1fr);
   grid-template-rows: var(--shell-topbar-height) 1fr;
   grid-template-areas:
-    "topbar topbar"
+    "nav topbar"
     "nav content";
   gap: 0;
   animation: dashboard-enter 0.4s var(--ease-out);
@@ -48,10 +48,6 @@
   grid-template-columns: 0px minmax(0, 1fr);
 }
 
-.shell--onboarding {
-  grid-template-rows: 0 1fr;
-}
-
 .shell--onboarding .topbar {
   display: none;
 }
@@ -66,6 +62,48 @@
 
 .shell--chat-focus .content > * + * {
   margin-top: 0;
+}
+
+/* ===========================================
+   Sidebar Navigation (full height)
+   =========================================== */
+
+.nav {
+  grid-area: nav / nav / content;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  scrollbar-width: none; /* Firefox */
+  transition:
+    width var(--shell-focus-duration) var(--shell-focus-ease),
+    padding var(--shell-focus-duration) var(--shell-focus-ease),
+    opacity var(--shell-focus-duration) var(--shell-focus-ease);
+  min-height: 0;
+}
+
+.nav::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.shell--chat-focus .nav {
+  width: 0;
+  padding: 0;
+  border-width: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.nav--collapsed {
+  width: 0;
+  min-width: 0;
+  padding: 0;
+  overflow: hidden;
+  border: none;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* ===========================================
@@ -188,48 +226,6 @@
 .topbar-status .theme-icon {
   width: 12px;
   height: 12px;
-}
-
-/* ===========================================
-   Navigation Sidebar
-   =========================================== */
-
-.nav {
-  grid-area: nav;
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding: 0;
-  background: var(--bg);
-  border-right: 1px solid var(--border);
-  scrollbar-width: none; /* Firefox */
-  transition:
-    width var(--shell-focus-duration) var(--shell-focus-ease),
-    padding var(--shell-focus-duration) var(--shell-focus-ease),
-    opacity var(--shell-focus-duration) var(--shell-focus-ease);
-  min-height: 0;
-}
-
-.nav::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
-}
-
-.shell--chat-focus .nav {
-  width: 0;
-  padding: 0;
-  border-width: 0;
-  overflow: hidden;
-  pointer-events: none;
-  opacity: 0;
-}
-
-.nav--collapsed {
-  width: 0;
-  min-width: 0;
-  padding: 0;
-  overflow: hidden;
-  border: none;
-  opacity: 0;
-  pointer-events: none;
 }
 
 /* Nav collapse toggle */
