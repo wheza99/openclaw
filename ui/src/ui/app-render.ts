@@ -223,21 +223,6 @@ export function renderApp(state: AppViewState) {
   return html`
     <div class="shell ${isChat ? "shell--chat" : ""} ${chatFocus ? "shell--chat-focus" : ""} ${state.settings.navCollapsed ? "shell--nav-collapsed" : ""} ${state.onboarding ? "shell--onboarding" : ""}">
       <header class="topbar">
-        <div class="topbar-left">
-          <button
-            class="nav-collapse-toggle"
-            @click=${() =>
-              state.applySettings({
-                ...state.settings,
-                navCollapsed: !state.settings.navCollapsed,
-              })}
-            title="${state.settings.navCollapsed ? t("nav.expand") : t("nav.collapse")}"
-            aria-label="${state.settings.navCollapsed ? t("nav.expand") : t("nav.collapse")}"
-          >
-            <span class="nav-collapse-toggle__icon">${icons.panelLeft}</span>
-          </button>
-
-        </div>
         <div class="topbar-status">
           <div class="pill">
             <span class="statusDot ${versionStatusClass}"></span>
@@ -262,48 +247,64 @@ export function renderApp(state: AppViewState) {
             <div class="brand-sub">Gateway Dashboard</div>
           </div>
         </div>
-        ${TAB_GROUPS.map((group) => {
-          const isGroupCollapsed = state.settings.navGroupsCollapsed[group.label] ?? false;
-          const hasActiveTab = group.tabs.some((tab) => tab === state.tab);
-          return html`
-            <div class="nav-group ${isGroupCollapsed && !hasActiveTab ? "nav-group--collapsed" : ""}">
-              <button
-                class="nav-label"
-                @click=${() => {
-                  const next = { ...state.settings.navGroupsCollapsed };
-                  next[group.label] = !isGroupCollapsed;
-                  state.applySettings({
-                    ...state.settings,
-                    navGroupsCollapsed: next,
-                  });
-                }}
-                aria-expanded=${!isGroupCollapsed}
-              >
-                <span class="nav-label__text">${t(`nav.${group.label}`)}</span>
-                <span class="nav-label__chevron">${isGroupCollapsed ? "+" : "−"}</span>
-              </button>
-              <div class="nav-group__items">
-                ${group.tabs.map((tab) => renderTab(state, tab))}
+        <div class="nav-content">
+          ${TAB_GROUPS.map((group) => {
+            const isGroupCollapsed = state.settings.navGroupsCollapsed[group.label] ?? false;
+            const hasActiveTab = group.tabs.some((tab) => tab === state.tab);
+            return html`
+              <div class="nav-group ${isGroupCollapsed && !hasActiveTab ? "nav-group--collapsed" : ""}">
+                <button
+                  class="nav-label"
+                  @click=${() => {
+                    const next = { ...state.settings.navGroupsCollapsed };
+                    next[group.label] = !isGroupCollapsed;
+                    state.applySettings({
+                      ...state.settings,
+                      navGroupsCollapsed: next,
+                    });
+                  }}
+                  aria-expanded=${!isGroupCollapsed}
+                >
+                  <span class="nav-label__text">${t(`nav.${group.label}`)}</span>
+                  <span class="nav-label__chevron">${isGroupCollapsed ? "+" : "−"}</span>
+                </button>
+                <div class="nav-group__items">
+                  ${group.tabs.map((tab) => renderTab(state, tab))}
+                </div>
               </div>
+            `;
+          })}
+          <div class="nav-group nav-group--links">
+            <div class="nav-label nav-label--static">
+              <span class="nav-label__text">${t("common.resources")}</span>
             </div>
-          `;
-        })}
-        <div class="nav-group nav-group--links">
-          <div class="nav-label nav-label--static">
-            <span class="nav-label__text">${t("common.resources")}</span>
+            <div class="nav-group__items">
+              <a
+                class="nav-item nav-item--external"
+                href="https://docs.openclaw.ai"
+                target=${EXTERNAL_LINK_TARGET}
+                rel=${buildExternalLinkRel()}
+                title="${t("common.docs")} (opens in new tab)"
+              >
+                <span class="nav-item__icon" aria-hidden="true">${icons.book}</span>
+                <span class="nav-item__text">${t("common.docs")}</span>
+              </a>
+            </div>
           </div>
-          <div class="nav-group__items">
-            <a
-              class="nav-item nav-item--external"
-              href="https://docs.openclaw.ai"
-              target=${EXTERNAL_LINK_TARGET}
-              rel=${buildExternalLinkRel()}
-              title="${t("common.docs")} (opens in new tab)"
-            >
-              <span class="nav-item__icon" aria-hidden="true">${icons.book}</span>
-              <span class="nav-item__text">${t("common.docs")}</span>
-            </a>
-          </div>
+        </div>
+        <div class="nav-footer">
+          <button
+            class="nav-item"
+            @click=${() =>
+              state.applySettings({
+                ...state.settings,
+                navCollapsed: !state.settings.navCollapsed,
+              })}
+            title="${state.settings.navCollapsed ? t("nav.expand") : t("nav.collapse")}"
+            aria-label="${state.settings.navCollapsed ? t("nav.expand") : t("nav.collapse")}"
+          >
+            <span class="nav-item__icon" aria-hidden="true">${icons.panelLeft}</span>
+          </button>
         </div>
       </aside>
       <main class="content ${isChat ? "content--chat" : ""}">

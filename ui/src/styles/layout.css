@@ -70,12 +70,12 @@
 
 .nav {
   grid-area: nav / nav / content;
-  overflow-y: auto;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
   padding: 0;
   background: var(--bg);
   border-right: 1px solid var(--border);
-  scrollbar-width: none; /* Firefox */
   transition:
     width var(--shell-focus-duration) var(--shell-focus-ease),
     padding var(--shell-focus-duration) var(--shell-focus-ease),
@@ -83,7 +83,14 @@
   min-height: 0;
 }
 
-.nav::-webkit-scrollbar {
+.nav-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+}
+
+.nav-content::-webkit-scrollbar {
   display: none; /* Chrome/Safari */
 }
 
@@ -277,6 +284,7 @@
   padding: 0 22px;
   box-sizing: border-box;
   position: relative;
+  flex-shrink: 0;
 }
 
 .nav > .brand::after {
@@ -306,17 +314,14 @@
   padding: 0 12px;
 }
 
-/* First nav-group after brand gets top padding */
-.brand + .nav-group {
+/* First nav-group in content gets top padding */
+.nav-content > .nav-group:first-child {
   padding-top: 16px;
 }
 
 /* Last nav-group gets bottom padding */
-.nav-group:last-child {
+.nav-content > .nav-group:last-child {
   padding-bottom: 16px;
-}
-
-.nav-group:last-child {
   margin-bottom: 0;
 }
 
@@ -335,11 +340,11 @@
   padding: 0 8px;
 }
 
-.nav--collapsed .brand + .nav-group {
+.nav--collapsed .nav-content > .nav-group:first-child {
   padding-top: 16px;
 }
 
-.nav--collapsed .nav-group:last-child {
+.nav--collapsed .nav-content > .nav-group:last-child {
   padding-bottom: 16px;
 }
 
@@ -477,6 +482,30 @@
 .nav-item.active .nav-item__icon {
   opacity: 1;
   color: var(--accent);
+}
+
+/* Nav footer */
+.nav-footer {
+  margin-top: auto;
+  padding: 16px 12px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.nav-footer .nav-item {
+  justify-content: flex-start;
+  width: auto;
+}
+
+.nav--collapsed .nav-footer {
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.nav--collapsed .nav-footer .nav-item {
+  padding: 8px;
+  justify-content: center;
 }
 
 /* ===========================================
