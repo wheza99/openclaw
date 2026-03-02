@@ -277,7 +277,7 @@ export function createAgentEventHandler({
   clearAgentRunContext,
   toolEventRecipients,
 }: AgentEventHandlerOptions) {
-  const emitChatDelta = (
+  const _emitChatDelta = (
     sessionKey: string,
     clientRunId: string,
     sourceRunId: string,
@@ -454,7 +454,11 @@ export function createAgentEventHandler({
         nodeSendToSession(sessionKey, "agent", isToolEvent ? toolPayload : agentPayload);
       }
       if (!isAborted && evt.stream === "assistant" && typeof evt.data?.text === "string") {
-        emitChatDelta(sessionKey, clientRunId, evt.runId, evt.seq, evt.data.text);
+        // Update buffer for final response, but don't emit delta (no streaming)
+        const cleaned = stripInlineDirectiveTagsForDisplay(evt.data.text).text;
+        if (cleaned && !isSilentReplyText(cleaned, SILENT_REPLY_TOKEN)) {
+          chatRunState.buffers.set(clientRunId, cleaned);
+        }
       } else if (!isAborted && (lifecyclePhase === "end" || lifecyclePhase === "error")) {
         if (chatLink) {
           const finished = chatRunState.registry.shift(evt.runId);
