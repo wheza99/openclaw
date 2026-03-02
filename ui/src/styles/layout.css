@@ -200,6 +200,7 @@
   overflow-x: hidden;
   padding: 16px 12px;
   background: var(--bg);
+  border-right: 1px solid var(--border);
   scrollbar-width: none; /* Firefox */
   transition:
     width var(--shell-focus-duration) var(--shell-focus-ease),
