@@ -6,6 +6,7 @@ import { openExternalUrlSafe } from "../open-external-url.ts";
 import { detectTextDirection } from "../text-direction.ts";
 import type { MessageGroup } from "../types/chat-types.ts";
 import { renderCopyAsMarkdownButton } from "./copy-as-markdown.ts";
+import "./working-timer.ts";
 import {
   extractTextCached,
   extractThinkingCached,
@@ -56,14 +57,17 @@ function extractImages(message: unknown): ImageBlock[] {
   return images;
 }
 
-export function renderReadingIndicatorGroup(assistant?: AssistantIdentity) {
+export function renderReadingIndicatorGroup(assistant?: AssistantIdentity, startedAt?: number) {
+  const timestamp = startedAt ?? Date.now();
   return html`
     <div class="chat-group assistant">
       ${renderAvatar("assistant", assistant)}
       <div class="chat-group-messages">
         <div class="chat-bubble chat-reading-indicator" aria-hidden="true">
-          <span class="chat-reading-indicator__dots">
-            <span></span><span></span><span></span>
+          <span class="chat-reading-indicator__content">
+            <span class="chat-reading-indicator__spinner"></span>
+            <span class="chat-reading-indicator__text">Working...</span>
+            <working-timer .startedAt=${timestamp}></working-timer>
           </span>
         </div>
       </div>

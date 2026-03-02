@@ -287,7 +287,10 @@ export function renderChat(props: ChatProps) {
           }
 
           if (item.kind === "reading-indicator") {
-            return renderReadingIndicatorGroup(assistantIdentity);
+            return renderReadingIndicatorGroup(
+              assistantIdentity,
+              props.streamStartedAt ?? Date.now(),
+            );
           }
 
           if (item.kind === "stream") {
