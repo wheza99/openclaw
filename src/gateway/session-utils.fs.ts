@@ -92,7 +92,16 @@ export function readSessionMessages(
     try {
       const parsed = JSON.parse(line);
       if (parsed?.message) {
-        messages.push(parsed.message);
+        // Use wrapper timestamp (ISO string) if available - it's more accurate than message.timestamp
+        // which is set when the message enters the session, not when response is complete.
+        const wrapperTs =
+          typeof parsed.timestamp === "string" ? Date.parse(parsed.timestamp) : Number.NaN;
+        const messageObj = parsed.message as Record<string, unknown>;
+        if (Number.isFinite(wrapperTs) && typeof messageObj.timestamp === "number") {
+          messages.push({ ...messageObj, timestamp: wrapperTs });
+        } else {
+          messages.push(messageObj);
+        }
         continue;
       }
 
