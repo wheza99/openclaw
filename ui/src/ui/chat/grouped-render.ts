@@ -84,6 +84,7 @@ export function renderStreamingGroup(
   const timestamp = new Date(startedAt).toLocaleTimeString([], {
     hour: "numeric",
     minute: "2-digit",
+    second: "2-digit",
   });
   const name = assistant?.name ?? "Assistant";
 
@@ -131,6 +132,7 @@ export function renderMessageGroup(
   const timestamp = new Date(group.timestamp).toLocaleTimeString([], {
     hour: "numeric",
     minute: "2-digit",
+    second: "2-digit",
   });
 
   return html`
