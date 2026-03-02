@@ -116,6 +116,11 @@
   color: var(--muted);
 }
 
+/* Light mode: assistant avatar uses white background like chat bubbles */
+:root[data-theme="light"] .chat-avatar.assistant {
+  background: var(--card);
+}
+
 /* Image avatar support */
 img.chat-avatar {
   display: block;
