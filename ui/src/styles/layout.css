@@ -201,6 +201,9 @@
 }
 
 .topbar-status .pill {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 6px 10px;
   gap: 6px;
   font-size: 12px;
@@ -209,11 +212,10 @@
   box-sizing: border-box;
 }
 
-.topbar-status .pill .mono {
-  display: flex;
-  align-items: center;
-  line-height: 1;
-  margin-top: 0px;
+.topbar-status .pill:empty,
+.topbar-status .pill:has(.statusDot:only-child) {
+  width: 32px;
+  padding: 0;
 }
 
 .topbar-status .statusDot {

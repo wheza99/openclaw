@@ -148,7 +148,6 @@ export function renderApp(state: AppViewState) {
     state.updateAvailable.latestVersion !== state.updateAvailable.currentVersion
       ? state.updateAvailable
       : null;
-  const versionStatusClass = availableUpdate ? "warn" : "ok";
   const presenceCount = state.presenceEntries.length;
   const sessionsCount = state.sessionsResult?.count ?? null;
   const cronNext = state.cronStatus?.nextWakeAtMs ?? null;
@@ -225,14 +224,10 @@ export function renderApp(state: AppViewState) {
       <header class="topbar">
         <div class="topbar-status">
           <div class="pill">
-            <span class="statusDot ${versionStatusClass}"></span>
-            <span>${t("common.version")}</span>
             <span class="mono">${openClawVersion}</span>
           </div>
-          <div class="pill">
+          <div class="pill" title="${state.connected ? t("common.ok") : t("common.offline")}">
             <span class="statusDot ${state.connected ? "ok" : ""}"></span>
-            <span>${t("common.health")}</span>
-            <span class="mono">${state.connected ? t("common.ok") : t("common.offline")}</span>
           </div>
           ${renderThemeToggle(state)}
         </div>
