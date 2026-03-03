@@ -139,10 +139,6 @@ function resolveAssistantAvatarUrl(state: AppViewState): string | undefined {
 }
 
 export function renderApp(state: AppViewState) {
-  const openClawVersion =
-    (typeof state.hello?.server?.version === "string" && state.hello.server.version.trim()) ||
-    state.updateAvailable?.currentVersion ||
-    t("common.na");
   const availableUpdate =
     state.updateAvailable &&
     state.updateAvailable.latestVersion !== state.updateAvailable.currentVersion
@@ -222,15 +218,6 @@ export function renderApp(state: AppViewState) {
   return html`
     <div class="shell ${isChat ? "shell--chat" : ""} ${chatFocus ? "shell--chat-focus" : ""} ${state.settings.navCollapsed ? "shell--nav-collapsed" : ""} ${state.onboarding ? "shell--onboarding" : ""}">
       <header class="topbar">
-        <div class="topbar-status">
-          <div class="pill">
-            <span class="mono">${openClawVersion}</span>
-          </div>
-          <div class="pill" title="${state.connected ? t("common.ok") : t("common.offline")}">
-            <span class="statusDot ${state.connected ? "ok" : ""}"></span>
-          </div>
-          ${renderThemeToggle(state)}
-        </div>
       </header>
       <aside class="nav ${state.settings.navCollapsed ? "nav--collapsed" : ""}">
         <div class="brand">
@@ -300,6 +287,12 @@ export function renderApp(state: AppViewState) {
           >
             <span class="nav-item__icon" aria-hidden="true">${icons.panelLeft}</span>
           </button>
+          <div class="nav-footer__actions">
+            <div class="pill" title="${state.connected ? t("common.ok") : t("common.offline")}">
+              <span class="statusDot ${state.connected ? "ok" : ""}"></span>
+            </div>
+            ${renderThemeToggle(state)}
+          </div>
         </div>
       </aside>
       <main class="content ${isChat ? "content--chat" : ""}">
