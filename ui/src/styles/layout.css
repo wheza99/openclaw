@@ -129,6 +129,36 @@
   background: var(--bg);
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Page header in topbar */
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.page-header__title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text-strong);
+}
+
+.page-header__sub {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
 .topbar-left {
   display: flex;
   align-items: center;
@@ -593,8 +623,8 @@
 /* Content header */
 .content-header {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: flex-end;
   gap: 16px;
   padding: 4px 8px;
   overflow: hidden;
@@ -604,7 +634,7 @@
     transform var(--shell-focus-duration) var(--shell-focus-ease),
     max-height var(--shell-focus-duration) var(--shell-focus-ease),
     padding var(--shell-focus-duration) var(--shell-focus-ease);
-  max-height: 80px;
+  max-height: 48px;
 }
 
 .shell--chat-focus .content-header {
@@ -613,22 +643,6 @@
   max-height: 0px;
   padding: 0;
   pointer-events: none;
-}
-
-.page-title {
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.15;
-  color: var(--text-strong);
-}
-
-.page-sub {
-  color: var(--muted);
-  font-size: 14px;
-  font-weight: 400;
-  margin-top: 6px;
-  letter-spacing: -0.01em;
 }
 
 .page-meta {
@@ -642,10 +656,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-}
-
-.content--chat .content-header > div:first-child {
-  text-align: left;
 }
 
 .content--chat .page-meta {

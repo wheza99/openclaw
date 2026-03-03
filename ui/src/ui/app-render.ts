@@ -218,6 +218,19 @@ export function renderApp(state: AppViewState) {
   return html`
     <div class="shell ${isChat ? "shell--chat" : ""} ${chatFocus ? "shell--chat-focus" : ""} ${state.settings.navCollapsed ? "shell--nav-collapsed" : ""} ${state.onboarding ? "shell--onboarding" : ""}">
       <header class="topbar">
+        <div class="page-header">
+          <div class="page-header__title">${titleForTab(state.tab)}</div>
+          <div class="page-header__sub">${subtitleForTab(state.tab)}</div>
+        </div>
+        ${
+          isChat
+            ? html`
+          <div class="topbar-actions">
+            ${renderChatControls(state)}
+          </div>
+        `
+            : nothing
+        }
       </header>
       <aside class="nav ${state.settings.navCollapsed ? "nav--collapsed" : ""}">
         <div class="brand">
@@ -310,13 +323,8 @@ export function renderApp(state: AppViewState) {
             : nothing
         }
         <section class="content-header">
-          <div>
-            ${state.tab === "usage" ? nothing : html`<div class="page-title">${titleForTab(state.tab)}</div>`}
-            ${state.tab === "usage" ? nothing : html`<div class="page-sub">${subtitleForTab(state.tab)}</div>`}
-          </div>
           <div class="page-meta">
             ${state.lastError ? html`<div class="pill danger">${state.lastError}</div>` : nothing}
-            ${isChat ? renderChatControls(state) : nothing}
           </div>
         </section>
 
