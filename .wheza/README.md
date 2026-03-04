@@ -24,8 +24,17 @@ pkill -9 -f "openclaw gateway"
 
 ```bash
 cd /Users/whezagl/openclaw
-npm run build
+
+# Build backend + UI (keduanya diperlukan untuk melihat perubahan)
+npm run build          # Backend build (tsdown)
+node scripts/ui.js build  # Control UI build (Vite)
+
+# Atau satu perintah:
+npm run build && node scripts/ui.js build
 ```
+
+> **Penting:** Jika hanya mengubah file di `ui/src/`, cukup jalankan `node scripts/ui.js build`.
+> Jika mengubah file di `src/`, jalankan `npm run build` terlebih dahulu.
 
 ## Akses
 

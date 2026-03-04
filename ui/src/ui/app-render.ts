@@ -322,11 +322,17 @@ export function renderApp(state: AppViewState) {
             </div>`
             : nothing
         }
-        <section class="content-header">
-          <div class="page-meta">
-            ${state.lastError ? html`<div class="pill danger">${state.lastError}</div>` : nothing}
-          </div>
-        </section>
+        ${
+          state.lastError
+            ? html`
+              <section class="content-header">
+                <div class="page-meta">
+                  <div class="pill danger">${state.lastError}</div>
+                </div>
+              </section>
+            `
+            : nothing
+        }
 
         ${
           state.tab === "overview"

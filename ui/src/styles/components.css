@@ -541,7 +541,7 @@
   justify-content: space-between;
   align-items: flex-start;
   gap: 12px 18px;
-  padding: 14px 16px;
+  padding: 12px 16px;
 }
 
 .cron-summary-strip__left {
@@ -593,23 +593,71 @@
 }
 
 .cron-workspace {
-  margin-top: 16px;
+  margin-top: 0px;
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(340px, 0.8fr);
+  grid-template-columns: calc(var(--shell-nav-width, 220px) * 2) minmax(0, 1fr);
+  gap: 0px;
+  align-items: start;
+  height: calc(100vh - 56px);
+  overflow: hidden;
+  margin-left: -16px;
+  margin-right: -16px;
+  width: calc(100% + 32px);
+}
+
+.cron-jobs-panel {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  align-self: start;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  padding: 0;
+  padding-bottom: 12px;
+}
+
+.cron-jobs-panel .filters {
+  padding: 12px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.cron-jobs-panel .filters .cron-filter-search {
+  grid-column: 1 / -1;
+}
+
+.cron-jobs-panel .filters .field {
+  min-width: 0;
+}
+
+.cron-jobs-panel .list {
+  padding: 0 12px;
+}
+
+.cron-jobs-panel .muted {
+  padding: 0 12px;
+  margin-top: 12px;
+}
+
+.cron-jobs-panel .row {
+  padding: 0 12px;
+  margin-top: 12px;
+}
+
+.cron-detail-panel {
+  display: grid;
   gap: 16px;
   align-items: start;
-}
-
-.cron-workspace-main {
-  display: grid;
-  gap: 16px;
-}
-
-.cron-workspace-form {
-  position: sticky;
-  top: 74px;
-  max-height: calc(100vh - 74px - 32px);
+  align-content: start;
+  height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
+  padding: 12px 0 12px 16px;
+}
+
+.cron-detail-panel--form {
+  /* Form mode - let it scroll within the panel */
 }
 
 .cron-form {
@@ -800,8 +848,35 @@
 }
 
 .cron-filter-search {
-  flex: 1 1 320px;
-  min-width: 280px;
+  min-width: 0;
+  width: 100%;
+  position: relative;
+  display: block;
+}
+
+.cron-filter-search .field-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  color: var(--muted);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.cron-filter-search .field-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+.cron-filter-search input {
+  width: 100%;
+  padding-left: 34px;
 }
 
 .cron-workspace .filters .field {
@@ -921,11 +996,28 @@
 
   .cron-workspace {
     grid-template-columns: 1fr;
+    height: auto;
+    overflow: visible;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
   }
 
-  .cron-workspace-form {
-    position: static;
-    order: -1;
+  .cron-jobs-panel {
+    height: auto;
+    overflow: visible;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .cron-detail-panel {
+    height: auto;
+    overflow: visible;
+    padding-left: 0;
+  }
+
+  .cron-detail-panel--form {
+    /* Reset */
   }
 
   .cron-form-grid {
@@ -1222,42 +1314,126 @@
   letter-spacing: -0.015em;
 }
 
-.cron-job {
-  grid-template-columns: minmax(0, 1fr) minmax(240px, 300px);
-  grid-template-areas:
-    "main meta"
-    "footer footer";
-  row-gap: 10px;
+.cron-job.list-item {
+  display: block;
+  grid-template-columns: none;
+  gap: 0;
+  padding: 12px;
+  min-width: 0;
+  overflow: hidden;
 }
 
-.cron-job .list-main {
-  grid-area: main;
-}
-
-.cron-job .list-meta {
-  grid-area: meta;
-  min-width: 240px;
-  gap: 8px;
-}
-
-.cron-job-footer {
-  grid-area: footer;
+.cron-job-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  border-top: 1px solid var(--border);
-  padding-top: 10px;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cron-job-header .list-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cron-job .list-sub {
+  margin-top: 4px;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .cron-job-chips {
+  margin-top: 8px;
   flex: 1 1 auto;
+}
+
+.cron-job-menu {
+  position: relative;
+}
+
+.cron-job-menu__trigger {
+  list-style: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.15s ease;
+}
+
+.cron-job-menu__trigger::-webkit-details-marker {
+  display: none;
+}
+
+.cron-job-menu__trigger:hover {
+  background: var(--hover);
+}
+
+.cron-job-menu__icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+  color: var(--muted);
+}
+
+.cron-job-menu__icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+.cron-job-menu[open] .cron-job-menu__trigger {
+  background: var(--hover);
+}
+
+.cron-job-menu__dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 100;
+  min-width: 140px;
+  padding: 4px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  margin-top: 4px;
+}
+
+.cron-job-menu__item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 13px;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.cron-job-menu__item:hover:not(:disabled) {
+  background: var(--hover);
+}
+
+.cron-job-menu__item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cron-job-menu__item--danger {
+  color: var(--danger);
 }
 
 .cron-job-detail {
   display: grid;
   gap: 3px;
   margin-top: 2px;
+  min-width: 0;
 }
 
 .cron-job-detail-label {
@@ -1271,6 +1447,8 @@
 .cron-job-detail-value {
   font-size: 13px;
   line-height: 1.35;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .cron-job-state {
@@ -1352,19 +1530,6 @@
 
   .cron-job-actions {
     justify-content: flex-start;
-  }
-
-  .cron-job {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "main"
-      "meta"
-      "footer";
-  }
-
-  .cron-job-footer {
-    flex-direction: column;
-    align-items: stretch;
   }
 }
 

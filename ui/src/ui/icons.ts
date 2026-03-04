@@ -103,6 +103,13 @@ export const icons = {
       <path d="M9 3v18" />
     </svg>
   `,
+  moreHorizontal: html`
+    <svg viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="1" />
+      <circle cx="19" cy="12" r="1" />
+      <circle cx="5" cy="12" r="1" />
+    </svg>
+  `,
   x: html`
     <svg viewBox="0 0 24 24">
       <path d="M18 6 6 18" />
